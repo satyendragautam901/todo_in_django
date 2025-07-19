@@ -1,0 +1,45 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# VSCode settings (optional)
+.vscode/
+
+# Django migrations
+**/migrations/
+!*/migrations/__init__.py
+
+# SQLite database
+db.sqlite3
+
+# Local environment settings
+.env
+.env.*
+
+# Pytest cache
+.pytest_cache/
+.cache/
+
+# Django secret key / config
+secrets.json
+
+# Media/uploads (optional, if any)
+media/
+uploads/
+
+# Static files (optional, if collected locally)
+staticfiles/
+static/
+
+# Logs
+*.log
+
+# Mac OS / Windows system files
+.DS_Store
+Thumbs.db
+
+# Python virtual environment
+venv/
+env/
+ENV/
