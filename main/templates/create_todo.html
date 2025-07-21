@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Todo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+  <!-- Navbar -->
+  <nav class="bg-blue-600 p-4 text-white shadow-md flex justify-between items-center">
+    <h1 class="text-xl font-bold"> <a href="/">📝 Your Todo App </a> </h1>
+    <a href="{% url 'logout' %}" class="bg-white text-blue-600 px-3 py-1 rounded hover:bg-gray-100 transition">Logout</a>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="max-w-3xl mx-auto mt-10 px-4">
+    <!-- Heading and Create Button -->
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-semibold text-gray-800">Hello, {{ user.username }} 👋</h2>
+      <a href="{% url 'create_todo' %}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">+ Create Task</a>
+    </div>
+
+    <!-- Form Card -->
+    <div class="bg-white p-8 rounded-2xl shadow-md w-full max-w-md mx-auto">
+      <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Create a New Task</h2>
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="mb-4 px-4 py-3 rounded-md bg-green-100 text-green-800">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <form method="POST" class="space-y-4">
+        {% csrf_token %}
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Title</label>
+          <input
+            type="text"
+            name="title"
+            required
+            class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+          />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Description</label>
+          <textarea
+            name="description"
+            rows="3"
+            class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+          ></textarea>
+        </div>
+
+        <div class="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            name="is_completed"
+            id="is_completed"
+            class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+          />
+          <label for="is_completed" class="text-sm text-gray-700">Mark as Completed</label>
+        </div>
+
+        <div>
+          <button
+            type="submit"
+            class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200"
+          >
+            Create Task
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+</body>
+</html>

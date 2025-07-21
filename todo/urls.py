@@ -20,8 +20,11 @@ from main.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',Test_view),
+    path('',home_view, name="home"),
     path('register/',register_view, name='register'),
     path('login/',login_view, name='login'),
-    path('logout/',login_view, name='logout'),
+    path('logout/',logout_view, name='logout'),
+
+    # create todo
+    path('create-todo', create_todo, name='create_todo'),
 ]

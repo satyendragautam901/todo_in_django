@@ -4,10 +4,15 @@ from django.contrib import messages  # ✅ import messages
 from django.contrib.auth import authenticate, login,logout
 from django.shortcuts import redirect
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required # used to protect function based view
+from main.models import * # import model for create todos
 # Create your views here.
 
-def Test_view(request):
-    return HttpResponse("This is a TODO application. Homepage coming soon!")
+@login_required(login_url='/login')
+def home_view(request):
+    user = request.user # this for logged in user credentials
+    tasks = Task.objects.filter(user=user).order_by('-id')  # filter data based on logged in user
+    return render(request, 'home.html', {'tasks': tasks})
 
 def register_view(request):
     if request.method == 'POST':  
@@ -28,6 +33,7 @@ def register_view(request):
             user.set_password(password)  # ✅ Password hashing
             user.save()
             messages.success(request, "User registered successfully!")  # ✅ success message
+            return redirect("/login")
         except Exception as e:
             messages.error(request, f"Error: {str(e)}")  # ✅ error message
 
@@ -64,5 +70,27 @@ def logout_view(request):
     logout(request)
     messages.success(request, "You have been logged out.")
     return redirect('/')
+
+@login_required(login_url='/login')  # ✅ Correct usage of login_required
+def create_todo(request):
+    if request.method == "POST":
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        is_completed = request.POST.get('is_completed') == 'on'  # ✅ Checkbox handling
+        user = request.user
+
+        try:
+            Task.objects.create(
+                title=title,
+                description=description,
+                is_completed=is_completed,
+                user=user
+            )
+            messages.success(request, "Your todo was created successfully.")
+            return redirect('/')
+        except Exception as e:
+            messages.error(request, "Error while creating your todo. Please try again.")
+    
+    return render(request, 'create_todo.html')
 
         
