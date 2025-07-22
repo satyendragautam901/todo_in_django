@@ -27,4 +27,9 @@ urlpatterns = [
 
     # create todo
     path('create-todo', create_todo, name='create_todo'),
+
+    # update todo
+    path('update-todo/<int:id>', update_todo, name='update_todo'),
+
+    path('delete-todo/<int:id>/', delete_todo, name='delete_todo'),
 ]
