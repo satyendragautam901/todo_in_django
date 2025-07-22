@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Update TODO</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-yellow-100 to-orange-200 min-h-screen flex items-center justify-center">
+  <div class="bg-white p-8 rounded-xl shadow-xl w-full max-w-xl">
+    <h2 class="text-3xl font-bold text-center text-orange-600 mb-6">Update Your Task</h2>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="mb-4 px-4 py-3 rounded-md bg-green-100 text-green-800 shadow-sm">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST" class="space-y-5">
+      {% csrf_token %}
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700">Title</label>
+        <input
+          type="text"
+          name="title"
+          value="{{ todo.title }}"
+          required
+          class="w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700">Description</label>
+        <textarea
+          name="description"
+          rows="4"
+          required
+          class="w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
+        >{{ todo.description }}</textarea>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <input
+          type="checkbox"
+          name="is_completed"
+          id="is_completed"
+          {% if todo.is_completed %}checked{% endif %}
+          class="h-4 w-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
+        />
+        <label for="is_completed" class="text-sm text-gray-700">Mark as Completed</label>
+      </div>
+
+      <div>
+        <button
+          type="submit"
+          class="w-full bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-700 transition duration-200"
+        >
+          Update Task
+        </button>
+      </div>
+
+      <div class="text-center">
+        <a href="/" class="text-sm text-gray-600 hover:underline">Back to Home</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

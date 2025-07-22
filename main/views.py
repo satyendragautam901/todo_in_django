@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required # used to protect function based view
 from main.models import * # import model for create todos
+from django.shortcuts import get_object_or_404
 # Create your views here.
 
 @login_required(login_url='/login')
@@ -93,4 +94,39 @@ def create_todo(request):
     
     return render(request, 'create_todo.html')
 
+@login_required(login_url='/login')
+def update_todo(request, id):
+    todo = get_object_or_404(Task,id = id)
+    if(request.method == "POST"):
+        if(todo is None):
+            messages.error(request,f"No todo with this id {id}")
+            return redirect("/")
         
+        todo.title  = request.POST.get('title')
+        todo.description =  request.POST.get('description')
+        todo.is_completed =  request.POST.get('is_completed') == 'on'  # ✅ Checkbox handling
+        todo.user = request.user
+        
+        try:
+            todo.save()
+            messages.success(request,"Successfully updated blog")
+            return redirect("/")
+
+        except:
+            messages.error(request,"Error during updating todo")
+
+    return render(request, 'update_todo.html', {"todo": todo})
+
+
+@login_required(login_url='/login')
+def delete_todo(request, id):
+    todo = get_object_or_404(Task, id=id)
+
+    if request.method == "POST":
+        todo.delete()
+        messages.success(request, "Todo deleted successfully.")
+        return redirect("/")
+    
+    messages.error(request, "Invalid request.")
+    return redirect("/")
+    
