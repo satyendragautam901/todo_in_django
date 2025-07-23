@@ -26,7 +26,7 @@ urlpatterns = [
     path('logout/',logout_view, name='logout'),
 
     # create todo
-    path('create-todo', create_todo, name='create_todo'),
+    path('create-todo/', create_todo, name='create_todo'),
 
     # update todo
     path('update-todo/<int:id>', update_todo, name='update_todo'),

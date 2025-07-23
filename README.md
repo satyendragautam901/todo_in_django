@@ -68,10 +68,10 @@ python manage.py runserver
 | ----------- | --------------------------- | ------------------- |
 | `POST`      | `/register/`                | User registration   |
 | `POST`      | `/login/`                   | Login and get token |
-| `GET`       | `/tasks/`                   | List user tasks     |
-| `POST`      | `/tasks/`                   | Create new task     |
+| `GET`       | `/"/"/`                     | List user tasks     |
+| `POST`      | `/create-todo/`             | Create new task     |
 | `GET`       | `/tasks/<id>/`              | Task detail         |
-| `PUT/PATCH` | `/tasks/<id>/`              | Update task         |
+| `PUT/PATCH` | `/update-todo/<int:id>/`    | Update task         |
 | `DELETE`    | `/tasks/<id>/`              | Delete task         |
 | `GET`       | `/tasks/?is_completed=true` | Filter tasks        |
 
@@ -88,4 +88,10 @@ python manage.py runserver
     ├── templates/
     │   ├── register.html
     │   └── login.html
+    |   ├── base.html
+    |   ├── create_todo.html
+    |   ├── home.html
+    |   ├── login.html
+    |   ├── register.html
+    |   ├── update_todo.html
     └── README.md
