@@ -129,4 +129,17 @@ def delete_todo(request, id):
     
     messages.error(request, "Invalid request.")
     return redirect("/")
+
+@login_required(login_url='/login')
+def filter_todo_view(request, is_completed):
+    # Convert string '0' or '1' (from URL) to boolean True/False
+    # '1' means completed tasks (True), '0' means pending tasks (False)
     
+    is_completed_bool = is_completed == "1"
+
+    # Since Task model has a BooleanField 'is_completed',
+    # we can filter using True or False accordingly.
+    todo = Task.objects.filter(user=request.user, is_completed=is_completed_bool)
+
+
+    return render(request, 'home.html', {'tasks': todo})

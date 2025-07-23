@@ -32,4 +32,5 @@ urlpatterns = [
     path('update-todo/<int:id>', update_todo, name='update_todo'),
 
     path('delete-todo/<int:id>/', delete_todo, name='delete_todo'),
+    path('filter/<str:is_completed>/', filter_todo_view, name='filter_todo'),
 ]
