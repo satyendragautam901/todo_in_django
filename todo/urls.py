@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
 from main.views import *
 
 urlpatterns = [
@@ -33,4 +33,7 @@ urlpatterns = [
 
     path('delete-todo/<int:id>/', delete_todo, name='delete_todo'),
     path('filter/<str:is_completed>/', filter_todo_view, name='filter_todo'),
+
+    # ✅ DRF API route included here ONCE
+    path('api/', include('api.urls')),
 ]
