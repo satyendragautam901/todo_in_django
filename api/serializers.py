@@ -16,3 +16,15 @@ class TaskSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=100) 
     description = serializers.CharField(allow_blank=True, required=False)  # This replaces TextField
     is_completed = serializers.BooleanField(default=False)
+
+    
+    
+
+class TaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = '__all__'
+        read_only_fields = ['id', 'created_at', 'updated_at']
+
+    def create(self, validated_data): # this will create an entry in db
+        return Task.objects.create(**validated_data)
