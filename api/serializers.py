@@ -28,3 +28,13 @@ class TaskSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data): # this will create an entry in db
         return Task.objects.create(**validated_data)
+    
+    def update(self, instance, validated_data):
+        # instance is old data
+        # validate_date is new data
+        instance.title = validated_data.get('title', instance.title)
+        instance.description = validated_data.get('description', instance.description)
+
+        instance.save()
+
+        return instance

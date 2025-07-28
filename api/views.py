@@ -47,9 +47,9 @@ def create_task(request):
         user = User.objects.get(id=1)
         data['user'] = user.id  # include user ID in data
 
-        serializer = TaskSerializer(data = data)
+        serializer = TaskSerializer(data = data) # here requested data is passed to serializer
 
-        if(serializer.is_valid()):
+        if(serializer.is_valid()): # means data a valid and ready to save
             serializer.save()
             
             return Response({ # if the task is create successfully
@@ -62,5 +62,39 @@ def create_task(request):
                 "status": False,
                 "data": serializer.errors,
                 "message": "Error during creating task"
+            })
+
+@csrf_exempt 
+@api_view(['patch'])
+def update_task(request, pk):
+    try:
+        instance = Task.objects.get(id = pk) # first find instance
+
+        
+
+    except Task.DoesNotExist: # if the instance doesn't exist then return error
+        return Response({
+            "status":False,
+            "message":"Task doesn't exist with this id "
+        })
+    
+    
+
+    # now instance is exist with the id
+    serializer = TaskSerializer(instance, data = request.data, partial = True)
+
+    if(serializer.is_valid()):
+        serializer.save()
+            
+        return Response({ # if the task is updating successfully
+            "status": True,
+            "data": serializer.data,
+            "message": "Task updated successfully"
+        })
+    
+    return Response({ # if error during updating task.
+                "status": False,
+                "data": serializer.errors,
+                "message": "Error during updating task"
             })
 
